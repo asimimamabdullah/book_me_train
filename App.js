@@ -2,21 +2,19 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import { Image, StyleSheet, Text, View } from "react-native";
+import Tabs from "./App/BottomNavigation/Tabs";
 import { leftArrow, leftArrow64 } from "./assets/icons";
-import Login from "./Component/Screens/Login";
-import Register from "./Component/Screens/Register";
-import Search from "./Component/Screens/Search";
+import Login from "./App/Screens/Login";
+import Register from "./App/Screens/Register";
+import EventDetails from "./App/Screens/EventDetails";
+import TicketsAvailable from "./App/Screens/TicketsAvailable";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
 	return (
 		<NavigationContainer>
-			<Stack.Navigator initialRouteName="Search" screenOptions={{}}>
-				{/* <Stack.Screen name='Search' component={Search}  />
-        <Stack.Screen name='MyTickets' component={MyTicket}  />
-      <Stack.Screen name='Account' component={Account}  /> */}
-
+			<Stack.Navigator initialRouteName="BottomTabs">
 				<Stack.Screen
 					name="Login"
 					component={Login}
@@ -43,8 +41,8 @@ export default function App() {
 				/>
 
 				<Stack.Screen
-					name="Search"
-					component={Search}
+					name="BottomTabs"
+					component={Tabs}
 					options={{
 						headerBackButtonMenuEnabled: false,
 						headerBackVisible: false,
@@ -53,6 +51,36 @@ export default function App() {
 						headerTintColor: "#ffffff",
 						headerStyle: { backgroundColor: "rgb(104,112,137)" },
 						headerShadowVisible: false,
+						headerShown: false,
+					}}
+				/>
+
+				<Stack.Screen
+					name="EventDetails"
+					component={EventDetails}
+					options={{
+						headerBackButtonMenuEnabled: true,
+						headerBackVisible: true,
+						headerBackImageSource: leftArrow64,
+						headerTitleAlign: "center",
+						headerTintColor: "#ffffff",
+						headerStyle: { backgroundColor: "rgb(104,112,137)" },
+					}}
+				/>
+
+				<Stack.Screen
+					name="TicketsAvailable"
+					component={TicketsAvailable}
+					options={{
+						headerTitle: `Birmingham -> Manchester`,
+						headerTitleStyle: { fontSize: 17 },
+						headerBackButtonMenuEnabled: true,
+						headerBackVisible: true,
+						headerBackImageSource: leftArrow64,
+						headerTitleAlign: "center",
+						headerTintColor: "#ffffff",
+						headerShadowVisible: false,
+						headerStyle: { backgroundColor: "rgb(104,112,137)" },
 					}}
 				/>
 			</Stack.Navigator>
