@@ -4,7 +4,7 @@ import React from "react";
 const MyTicketsCard = ({ navigation }) => {
 	return (
 		<TouchableOpacity
-			onPress={() => navigation.navigate("EventDetails")}
+			onPress={() => navigation.navigate("TicketDetails")}
 			style={{
 				flexDirection: "row",
 				backgroundColor: "#ffffff",

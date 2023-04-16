@@ -8,6 +8,7 @@ import Login from "./App/Screens/Login";
 import Register from "./App/Screens/Register";
 import EventDetails from "./App/Screens/EventDetails";
 import TicketsAvailable from "./App/Screens/TicketsAvailable";
+import TicketDetails from "./App/Screens/TicketDetails";
 
 const Stack = createNativeStackNavigator();
 
@@ -83,6 +84,8 @@ export default function App() {
 						headerStyle: { backgroundColor: "rgb(104,112,137)" },
 					}}
 				/>
+
+				<Stack.Screen name="TicketDetails" component={TicketDetails} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
