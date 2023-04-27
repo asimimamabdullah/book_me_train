@@ -11,7 +11,7 @@ const Return = ({ navigation }) => {
 		if (errMsg) {
 			setTimeout(() => {
 				setErrMsg(null);
-			}, 5000);
+			}, 3000);
 		}
 	}, [errMsg]);
 

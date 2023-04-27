@@ -6,6 +6,7 @@ import { selectLocationDetails } from "../redux/app/locations/locationsSlice";
 const TicketDetails = ({ navigation, route }) => {
 	const currentLocation = useSelector(selectLocationDetails);
 	const item = route.params.item;
+
 	return (
 		<View style={{ flex: 1 }}>
 			<View
@@ -37,7 +38,9 @@ const TicketDetails = ({ navigation, route }) => {
 					borderBottomColor: "#dddddd",
 					borderBottomWidth: 1,
 				}}>
-				<Text>{`${item.exactDate} ${item.startTime}`}</Text>
+				<Text>{`${new Date(item?.exactDate)
+					.toDateString()
+					.substring(0, 11)} ${item?.startTime}`}</Text>
 				<Text style={{ fontSize: 13, color: "#bbbbbb" }}>Single</Text>
 			</View>
 

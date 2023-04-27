@@ -7,13 +7,33 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useRegisterMutation } from "../redux/app/auth/register";
+import { useDispatch } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { setCredentials } from "../redux/app/auth/authSlice";
 
-const Register = () => {
+const Register = ({ navigation }) => {
 	const [registerDetails, setRegisterDetails] = useState({
+		name: "",
 		email: "",
 		password: "",
-		repeatPassword: "",
 	});
+	const [register, { loading }] = useRegisterMutation();
+	const dispatch = useDispatch();
+
+	const handleRegister = async () => {
+		try {
+			const userData = await register({ ...registerDetails }).unwrap();
+			await AsyncStorage.setItem("token", userData.accessToken);
+
+			dispatch(setCredentials({ ...userData }));
+			navigation.navigate("Home");
+		} catch (error) {
+			console.log("error register: ", error);
+			setErrMsg(error?.data?.message);
+		}
+	};
+
 	return (
 		<SafeAreaView
 			style={{
@@ -25,7 +45,25 @@ const Register = () => {
 
 			<View style={{ gap: 10 }}>
 				<TextInput
-					value={registerDetails?.email | ""}
+					value={registerDetails?.name | ""}
+					placeholder="Full name*"
+					placeholderTextColor="#aaaaaa"
+					onChangeText={(name) =>
+						setRegisterDetails((old) => ({
+							...old,
+							name: name,
+						}))
+					}
+					style={{
+						borderRadius: 5,
+						backgroundColor: "#fff",
+						paddingVertical: 10,
+						paddingHorizontal: 20,
+					}}
+				/>
+
+				<TextInput
+					value={registerDetails?.email}
 					placeholder="Email*"
 					placeholderTextColor="#aaaaaa"
 					onChangeText={(email) =>
@@ -39,29 +77,12 @@ const Register = () => {
 					}}
 				/>
 				<TextInput
-					value={registerDetails?.password | ""}
+					value={registerDetails?.password}
 					placeholder="Choose Password*"
 					placeholderTextColor="#aaaaaa"
+					secureTextEntry={true}
 					onChangeText={(pass) =>
 						setRegisterDetails((old) => ({ ...old, password: pass }))
-					}
-					style={{
-						borderRadius: 5,
-						backgroundColor: "#fff",
-						paddingVertical: 10,
-						paddingHorizontal: 20,
-					}}
-				/>
-
-				<TextInput
-					value={registerDetails?.repeatPassword | ""}
-					placeholder="Repeat Password*"
-					placeholderTextColor="#aaaaaa"
-					onChangeText={(pass) =>
-						setRegisterDetails((old) => ({
-							...old,
-							repeatPassword: pass,
-						}))
 					}
 					style={{
 						borderRadius: 5,
@@ -81,6 +102,7 @@ const Register = () => {
 					</Text>
 				</View>
 				<TouchableOpacity
+					onPress={handleRegister}
 					style={{
 						borderRadius: 25,
 						backgroundColor: "rgb(104,112,137)",
@@ -89,10 +111,12 @@ const Register = () => {
 						alignItems: "center",
 						justifyContent: "center",
 					}}>
-					<Text style={{ fontSize: 16, color: "#fff" }}>Sign In</Text>
+					<Text style={{ fontSize: 16, color: "#fff" }}>Sign Up</Text>
 				</TouchableOpacity>
 
-				<TouchableOpacity style={{ alignItems: "center" }}>
+				<TouchableOpacity
+					onPress={() => navigation.navigate("Login")}
+					style={{ alignItems: "center" }}>
 					<Text style={{ color: "rgb(170,175,191)" }}>
 						Already have an account? Sign in
 					</Text>

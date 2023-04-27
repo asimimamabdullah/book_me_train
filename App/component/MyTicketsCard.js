@@ -1,10 +1,12 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
-const MyTicketsCard = ({ navigation }) => {
+const MyTicketsCard = ({ navigation, item }) => {
+	const date = useRef(new Date(item?.exactDate).toDateString());
+
 	return (
 		<TouchableOpacity
-			onPress={() => navigation.navigate("TicketDetails")}
+			onPress={() => navigation.navigate("TicketDetails", { item })}
 			style={{
 				flexDirection: "row",
 				backgroundColor: "#ffffff",
@@ -18,15 +20,23 @@ const MyTicketsCard = ({ navigation }) => {
 					borderRightWidth: 1,
 					borderRightColor: "#dddddd",
 				}}>
-				<Text>APR 27</Text>
-				<Text>FRI</Text>
+				<Text>
+					{`${date.current
+						.substring(4, 8)
+						.toUpperCase()} ${date.current.substring(8, 11)}`}
+				</Text>
+				<Text>{`${date.current.substring(0, 4)}`}</Text>
 			</View>
 			<View style={{ gap: 3, paddingLeft: 20, flex: 1 }}>
 				<View>
-					<Text>Birmingham {"->"} Manchester</Text>
-					<Text>Manchester {"->"} Birmingham</Text>
+					<Text>
+						{item?.from} {"->"} {item?.destination}
+					</Text>
+					{item?.ticketType === "Return" ? (
+						<Text>Manchester {"->"} Birmingham</Text>
+					) : null}
 				</View>
-				<Text style={{ color: "#ccc" }}>Ticket 3341</Text>
+				<Text style={{ color: "#ccc" }}>Ticket {item?.ticketNumber}</Text>
 				<View
 					style={{
 						backgroundColor: "rgb(104,112,137)",
@@ -42,7 +52,7 @@ const MyTicketsCard = ({ navigation }) => {
 							textAlignVertical: "center",
 							color: "#ffffff",
 						}}>
-						Single
+						{item?.ticketType}
 					</Text>
 				</View>
 			</View>

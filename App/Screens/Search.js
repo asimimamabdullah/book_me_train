@@ -15,6 +15,7 @@ const MyTabs = createMaterialTopTabNavigator();
 const Search = () => {
 	const [search, setSearch] = useState({ from: "", destination: "" });
 	const dispatch = useDispatch();
+	const currentLocation = useSelector(selectLocationDetails);
 
 	useEffect(() => {
 		dispatch(setLocations({ ...search }));
@@ -41,6 +42,14 @@ const Search = () => {
 						value={search?.from}
 						onChangeText={(text) =>
 							setSearch((old) => ({ ...old, from: text }))
+						}
+						onFocus={() =>
+							search?.from?.length < 1
+								? setSearch((val) => ({
+										...val,
+										from: `${currentLocation?.currentRegion?.city}, ${currentLocation?.currentRegion?.street}, ${currentLocation?.currentRegion?.postalCode}`,
+								  }))
+								: setSearch((val) => val)
 						}
 						style={styles.upperContainerInput}
 						placeholder="From"

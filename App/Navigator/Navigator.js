@@ -37,7 +37,7 @@ const Navigator = () => {
 				latitude: location.coords.latitude,
 				longitude: location.coords.longitude,
 			});
-			console.log("location; ", location, regionFound);
+
 			dispatch(
 				setCurrentLocation({
 					coords: location?.coords,

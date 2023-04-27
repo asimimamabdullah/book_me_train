@@ -28,7 +28,6 @@ const Login = ({ navigation }) => {
 				...loginDetails,
 			}).unwrap();
 
-			console.log('user :" , ', userData);
 			await AsyncStorage.setItem("token", userData?.accessToken);
 
 			dispatch(
@@ -36,7 +35,6 @@ const Login = ({ navigation }) => {
 					...userData,
 				}),
 			);
-			// setInfo()
 			navigation.navigate("Home");
 		} catch (err) {
 			// if (!err?.response) setErrMsg("No Server Response");
@@ -80,6 +78,7 @@ const Login = ({ navigation }) => {
 					value={loginDetails?.password}
 					placeholder="Password*"
 					placeholderTextColor="#bbbbbb"
+					secureTextEntry={true}
 					onChangeText={(pass) =>
 						setLoginDetails((old) => ({ ...old, password: pass }))
 					}

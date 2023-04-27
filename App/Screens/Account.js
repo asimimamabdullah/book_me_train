@@ -2,19 +2,35 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect } from "react";
 import { userFilled100 } from "../../assets/icons";
 import { StatusBar } from "expo-status-bar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
+	logOut,
 	selectCurrentToken,
 	selectCurrentUser,
 } from "../redux/app/auth/authSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { resetTickets } from "../redux/app/tickets/ticketSlice";
 
 const Account = ({ navigation }) => {
 	const token = useSelector(selectCurrentToken);
 	const User = useSelector(selectCurrentUser);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (!token) navigation.navigate("Login");
 	}, [token]);
+
+	const handleLogout = async () => {
+		if (token) {
+			try {
+				dispatch(logOut());
+				dispatch(resetTickets());
+				await AsyncStorage.removeItem("token");
+			} catch (error) {
+				console.log("error: ", error);
+			}
+		} else navigation.navigate("Login");
+	};
 	return (
 		<View style={{ flex: 1 }}>
 			<View
@@ -137,6 +153,18 @@ const Account = ({ navigation }) => {
 				}}>
 				<Text style={{ fontSize: 15, fontWeight: 400, letterSpacing: 0.1 }}>
 					Change Password
+				</Text>
+			</TouchableOpacity>
+
+			<TouchableOpacity
+				onPress={handleLogout}
+				style={{
+					paddingHorizontal: 20,
+					paddingVertical: 15,
+					backgroundColor: "#fff",
+				}}>
+				<Text style={{ fontSize: 15, fontWeight: 400, letterSpacing: 0.1 }}>
+					Log Out
 				</Text>
 			</TouchableOpacity>
 

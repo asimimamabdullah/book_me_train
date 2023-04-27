@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EventDetailsCard from "../component/EventDetailsCard";
 import { seat_64, user_64 } from "../../assets/icons";
 import { useSelector } from "react-redux";
@@ -14,6 +14,12 @@ const EventDetails = ({ navigation, route }) => {
 	const token = useSelector(selectCurrentToken);
 	const user = useSelector(selectCurrentUser);
 	const { item } = route.params;
+
+	useEffect(() => {
+		setTimeout(() => {
+			setErrorMsg(null);
+		}, 3000);
+	}, [errorMsg]);
 
 	const handleBook = async () => {
 		if (token) {
@@ -33,16 +39,42 @@ const EventDetails = ({ navigation, route }) => {
 					auth,
 				);
 
-				console.log("res: ", res.data);
-
 				navigation.navigate("Booked");
 			} catch (error) {
 				setErrorMsg(error?.error || error);
 			}
-		}
+		} else setErrorMsg("Please Login to continue");
 	};
 	return (
 		<View style={{ gap: 10, flex: 1 }}>
+			{errorMsg && (
+				<View
+					style={{
+						position: "absolute",
+						top: 30,
+						flexDirection: "row",
+						zIndex: 5,
+						marginHorizontal: 20,
+					}}>
+					<View
+						style={{
+							flex: 1,
+							backgroundColor: "red",
+							paddingVertical: 15,
+							paddingHorizontal: 20,
+						}}>
+						<Text
+							style={{
+								color: "#fff",
+								fontSize: 16,
+								fontWeight: 600,
+								textAlign: "center",
+							}}>
+							{errorMsg}
+						</Text>
+					</View>
+				</View>
+			)}
 			<View style={{ paddingHorizontal: 20, paddingTop: 20 }}>
 				<EventDetailsCard item={item} />
 			</View>
