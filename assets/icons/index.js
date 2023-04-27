@@ -6,6 +6,7 @@ import user_64 from "./user-64.png";
 import calender_64 from "./schedule-64.png";
 import seat_64 from "./seat-64.png";
 import userFilled100 from "./user-filled-100.png";
+import accept from "./accept.png";
 
 export {
 	leftArrow,
@@ -16,4 +17,5 @@ export {
 	calender_64,
 	seat_64,
 	userFilled100,
+	accept,
 };

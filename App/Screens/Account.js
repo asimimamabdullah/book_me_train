@@ -1,9 +1,20 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { userFilled100 } from "../../assets/icons";
 import { StatusBar } from "expo-status-bar";
+import { useSelector } from "react-redux";
+import {
+	selectCurrentToken,
+	selectCurrentUser,
+} from "../redux/app/auth/authSlice";
 
-const Account = () => {
+const Account = ({ navigation }) => {
+	const token = useSelector(selectCurrentToken);
+	const User = useSelector(selectCurrentUser);
+
+	useEffect(() => {
+		if (!token) navigation.navigate("Login");
+	}, [token]);
 	return (
 		<View style={{ flex: 1 }}>
 			<View
@@ -55,7 +66,7 @@ const Account = () => {
 						style={{ fontWeight: 500, letterSpacing: 0.1, fontSize: 15 }}>
 						Username
 					</Text>
-					<Text style={{ color: "#aaaaaa" }}>Dave12</Text>
+					<Text style={{ color: "#aaaaaa" }}>{User?.name}</Text>
 				</View>
 
 				<View
@@ -70,7 +81,7 @@ const Account = () => {
 						style={{ fontWeight: 500, letterSpacing: 0.1, fontSize: 15 }}>
 						First name
 					</Text>
-					<Text style={{ color: "#aaaaaa" }}>Dave</Text>
+					<Text style={{ color: "#aaaaaa" }}>{User?.name}</Text>
 				</View>
 
 				<View
@@ -85,7 +96,7 @@ const Account = () => {
 						style={{ fontWeight: 500, letterSpacing: 0.1, fontSize: 15 }}>
 						Last name
 					</Text>
-					<Text style={{ color: "#aaaaaa" }}>Anthony</Text>
+					<Text style={{ color: "#aaaaaa" }}>{User?.name}</Text>
 				</View>
 
 				<View
@@ -98,7 +109,7 @@ const Account = () => {
 						style={{ fontWeight: 500, letterSpacing: 0.1, fontSize: 15 }}>
 						Email
 					</Text>
-					<Text style={{ color: "#aaaaaa" }}>annie.larson@gmail.com</Text>
+					<Text style={{ color: "#aaaaaa" }}>{User?.email}</Text>
 				</View>
 			</View>
 

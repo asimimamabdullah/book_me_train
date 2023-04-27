@@ -1,13 +1,25 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import Single from "./Single";
 import Return from "./Return";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	selectLocationDetails,
+	setLocations,
+} from "../redux/app/locations/locationsSlice";
+import { store } from "../redux/store";
 
 const MyTabs = createMaterialTopTabNavigator();
 
 const Search = () => {
 	const [search, setSearch] = useState({ from: "", destination: "" });
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(setLocations({ ...search }));
+	}, [search.from, search.destination]);
+
 	return (
 		<View style={{ flex: 1 }}>
 			<View style={styles.upperHeaderContainer}>
@@ -28,7 +40,7 @@ const Search = () => {
 					<TextInput
 						value={search?.from}
 						onChangeText={(text) =>
-							setSearch((old) => ({ ...old, search: text }))
+							setSearch((old) => ({ ...old, from: text }))
 						}
 						style={styles.upperContainerInput}
 						placeholder="From"

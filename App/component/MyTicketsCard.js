@@ -14,7 +14,6 @@ const MyTicketsCard = ({ navigation }) => {
 			}}>
 			<View
 				style={{
-					// padding: 20,
 					paddingRight: 20,
 					borderRightWidth: 1,
 					borderRightColor: "#dddddd",
@@ -33,7 +32,6 @@ const MyTicketsCard = ({ navigation }) => {
 						backgroundColor: "rgb(104,112,137)",
 						paddingVertical: 5,
 						paddingHorizontal: 25,
-						// justifyContent: "flex-end",
 						alignSelf: "flex-end",
 						marginTop: 10,
 						borderRadius: 5,

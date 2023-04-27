@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const EventDetailsCard = () => {
+const EventDetailsCard = ({ item }) => {
 	return (
 		<View
 			style={{
@@ -17,17 +17,23 @@ const EventDetailsCard = () => {
 					borderRightWidth: 1,
 					borderRightColor: "#dddddd",
 				}}>
-				<Text style={{ fontWeight: 500, fontSize: 15 }}>APR 27</Text>
-				<Text style={{ color: "#bbbbbb", fontSize: 14 }}>FRI</Text>
+				<Text style={{ fontWeight: 500, fontSize: 15 }}>
+					{item.exactDate?.substring(4, 8)}
+				</Text>
+				<Text style={{ color: "#bbbbbb", fontSize: 14 }}>
+					{item.exactDate?.substring(8, 11)}
+				</Text>
 			</View>
 			<View style={{ gap: 3, paddingLeft: 20, flex: 1 }}>
 				<View>
 					<Text style={{ fontSize: 16, fontWeight: 400 }}>
-						Birmingham {"->"} Manchester
+						{item?.from} {"->"} {item?.destination}
 					</Text>
-					<Text style={{ fontSize: 16, fontWeight: 400 }}>
-						Manchester {"->"} Birmingham
-					</Text>
+					{item?.ticketType === "Return" && (
+						<Text style={{ fontSize: 16, fontWeight: 400 }}>
+							{item?.destination} {"->"} {item?.from}
+						</Text>
+					)}
 				</View>
 				<View
 					style={{
@@ -50,7 +56,7 @@ const EventDetailsCard = () => {
 								textAlignVertical: "center",
 								color: "#ffffff",
 							}}>
-							Single
+							{item?.ticketType}
 						</Text>
 					</View>
 				</View>

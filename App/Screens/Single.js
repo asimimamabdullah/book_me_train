@@ -1,10 +1,36 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { calender_64, user_64 } from "../../assets/icons";
+import { useSelector } from "react-redux";
+import { selectLocationDetails } from "../redux/app/locations/locationsSlice";
 
-const Single = () => {
+const Single = ({ navigation }) => {
+	const [errMsg, setErrMsg] = useState(null);
+	const locations = useSelector(selectLocationDetails);
+	useEffect(() => {
+		if (errMsg) {
+			setTimeout(() => {
+				setErrMsg(null);
+			}, 5000);
+		}
+	}, [errMsg]);
+
 	return (
 		<View style={{ flex: 1, backgroundColor: "#ffffff", gap: 40 }}>
+			{errMsg ? (
+				<View
+					style={{
+						backgroundColor: "red",
+						position: "absolute",
+						top: 50,
+						left: 75,
+						paddingVertical: 15,
+						paddingHorizontal: 30,
+						zIndex: 99,
+					}}>
+					<Text style={{ color: "#fff", fontSize: 16 }}>{errMsg}</Text>
+				</View>
+			) : null}
 			<View>
 				<View
 					style={{
@@ -40,6 +66,13 @@ const Single = () => {
 
 			<View style={{ paddingHorizontal: 35 }}>
 				<TouchableOpacity
+					onPress={() =>
+						locations.destination.length > 3
+							? navigation.navigate("TicketsAvailable", {
+									type: "Single",
+							  })
+							: setErrMsg("Please select destination")
+					}
 					style={{
 						padding: 20,
 						backgroundColor: "rgb(104,112,137)",

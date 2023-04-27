@@ -1,9 +1,13 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
+import { useSelector } from "react-redux";
+import { selectLocationDetails } from "../redux/app/locations/locationsSlice";
 
-const TicketDetails = () => {
+const TicketDetails = ({ navigation, route }) => {
+	const currentLocation = useSelector(selectLocationDetails);
+	const item = route.params.item;
 	return (
-		<View>
+		<View style={{ flex: 1 }}>
 			<View
 				style={{
 					flexDirection: "row",
@@ -15,10 +19,14 @@ const TicketDetails = () => {
 					borderBottomWidth: 1,
 				}}>
 				<View style={{ alignItems: "center" }}>
-					<Text style={{ fontSize: 13, color: "#bbbbbb" }}>OCT</Text>
-					<Text style={{ fontSize: 16, fontWeight: 500 }}>27</Text>
+					<Text style={{ fontSize: 13, color: "#bbbbbb" }}>
+						{item?.month}
+					</Text>
+					<Text style={{ fontSize: 16, fontWeight: 500 }}>
+						{item?.monthDate}
+					</Text>
 				</View>
-				<Text>Manchester</Text>
+				<Text>{item?.destination}</Text>
 			</View>
 
 			<View
@@ -29,7 +37,7 @@ const TicketDetails = () => {
 					borderBottomColor: "#dddddd",
 					borderBottomWidth: 1,
 				}}>
-				<Text>Saturday, October 22 at 2PM</Text>
+				<Text>{`${item.exactDate} ${item.startTime}`}</Text>
 				<Text style={{ fontSize: 13, color: "#bbbbbb" }}>Single</Text>
 			</View>
 
@@ -43,7 +51,7 @@ const TicketDetails = () => {
 				}}>
 				<Text>Location</Text>
 				<Text style={{ fontSize: 13, color: "#bbbbbb" }}>
-					Address Line 1, City, NW5782
+					{`${currentLocation.currentRegion?.street} ${currentLocation.currentRegion?.streetNumber}, ${currentLocation.currentRegion?.city}, ${currentLocation.currentRegion?.postalCode} `}
 				</Text>
 			</View>
 
@@ -61,6 +69,34 @@ const TicketDetails = () => {
 					ipsum Text Lorem ipsum Text{" "}
 				</Text>
 			</View>
+
+			{/* <View
+				style={{
+					padding: 20,
+					backgroundColor: "#fff",
+					position: "absolute",
+					bottom: 0,
+					right: 0,
+					left: 0,
+				}}>
+				<TouchableOpacity
+					onPress={() => navigation.navigate("Booked")}
+					style={{
+						paddingVertical: 15,
+						paddingHorizontal: 20,
+						backgroundColor: "rgb(104,112,137)",
+						borderRadius: 5,
+					}}>
+					<Text
+						style={{
+							color: "#ffffff",
+							textAlign: "center",
+							fontSize: 16,
+						}}>
+						Book Now
+					</Text>
+				</TouchableOpacity>
+			</View> */}
 		</View>
 	);
 };

@@ -8,12 +8,47 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useLoginMutation } from "../redux/app/auth/login";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../redux/app/auth/authSlice";
 
 const Login = ({ navigation }) => {
 	const [loginDetails, setLoginDetails] = useState({
 		email: "",
 		password: "",
 	});
+	const [errMsg, setErrMsg] = useState(null);
+	const dispatch = useDispatch();
+	const [login, { loading }] = useLoginMutation();
+
+	const handleSubmit = async () => {
+		try {
+			const userData = await login({
+				...loginDetails,
+			}).unwrap();
+
+			console.log('user :" , ', userData);
+			await AsyncStorage.setItem("token", userData?.accessToken);
+
+			dispatch(
+				setCredentials({
+					...userData,
+				}),
+			);
+			// setInfo()
+			navigation.navigate("Home");
+		} catch (err) {
+			// if (!err?.response) setErrMsg("No Server Response");
+			// else if (err.originalStatus?.status === 400)
+			// 	setErrMsg("Missing Username or password");
+			// else if (err.originalStatus?.status === 401) setErrMsg("Unauthorized");
+			// else setErrMsg("Login Failed");
+			console.log("login erro: ", err);
+			setErrMsg(err?.data?.error);
+			// errRef.current.focus();
+		}
+	};
 	return (
 		<SafeAreaView
 			style={{
@@ -28,13 +63,11 @@ const Login = ({ navigation }) => {
 
 			<View style={{ gap: 10 }}>
 				<TextInput
-					value={loginDetails?.email | ""}
+					value={loginDetails?.email}
 					placeholder="Email*"
 					placeholderTextColor="#bbbbbb"
 					onChangeText={(email) =>
-						setLoginDetails((old) =>
-							setLoginDetails({ ...old, email: email }),
-						)
+						setLoginDetails((old) => ({ ...old, email: email }))
 					}
 					style={{
 						borderRadius: 5,
@@ -44,13 +77,11 @@ const Login = ({ navigation }) => {
 					}}
 				/>
 				<TextInput
-					value={loginDetails?.password | ""}
+					value={loginDetails?.password}
 					placeholder="Password*"
 					placeholderTextColor="#bbbbbb"
 					onChangeText={(pass) =>
-						setLoginDetails((old) =>
-							setLoginDetails({ ...old, password: pass }),
-						)
+						setLoginDetails((old) => ({ ...old, password: pass }))
 					}
 					style={{
 						borderRadius: 5,
@@ -64,6 +95,7 @@ const Login = ({ navigation }) => {
 			{/* buttons and bottom things */}
 			<View style={{ gap: 15 }}>
 				<TouchableOpacity
+					onPress={handleSubmit}
 					style={{
 						borderRadius: 25,
 						backgroundColor: "rgb(104,112,137)",
