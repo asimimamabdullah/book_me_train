@@ -64,9 +64,6 @@ const TicketsAvailable = ({ navigation, route }) => {
 					navigation={navigation}
 				/>
 			))}
-			{/* <TicketsAvailableCard />
-			<TicketsAvailableCard />
-			<TicketsAvailableCard /> */}
 		</ScrollView>
 	);
 };

@@ -47,7 +47,7 @@ const Search = () => {
 							search?.from?.length < 1
 								? setSearch((val) => ({
 										...val,
-										from: `${currentLocation?.currentRegion?.city}, ${currentLocation?.currentRegion?.street}, ${currentLocation?.currentRegion?.postalCode}`,
+										from: `${currentLocation?.currentRegion?.city}, ${currentLocation?.currentRegion?.street}`,
 								  }))
 								: setSearch((val) => val)
 						}

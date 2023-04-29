@@ -37,14 +37,7 @@ const Login = ({ navigation }) => {
 			);
 			navigation.navigate("Home");
 		} catch (err) {
-			// if (!err?.response) setErrMsg("No Server Response");
-			// else if (err.originalStatus?.status === 400)
-			// 	setErrMsg("Missing Username or password");
-			// else if (err.originalStatus?.status === 401) setErrMsg("Unauthorized");
-			// else setErrMsg("Login Failed");
-			console.log("login erro: ", err);
 			setErrMsg(err?.data?.error);
-			// errRef.current.focus();
 		}
 	};
 	return (

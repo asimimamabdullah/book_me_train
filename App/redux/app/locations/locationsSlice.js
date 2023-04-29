@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice } from "@reduxjs/toolkit";
 
 const locationSlice = createSlice({
@@ -26,6 +25,3 @@ export const { setLocations, setCurrentLocation } = locationSlice.actions;
 export default locationSlice.reducer;
 
 export const selectLocationDetails = (state) => state.location;
-
-// export const selectCurrentUser = (state) => state.auth.user;
-// export const selectCurrentToken = (state) => state.auth.token;
