@@ -23,7 +23,7 @@ const MyTickets = ({ navigation }) => {
 			};
 
 			const res = await axios.get(
-				`http://10.0.2.2:3000/api/ticket/${user._id}`,
+				`https://backend-bookmetrain-production.up.railway.app/api/ticket/${user._id}`,
 				auth,
 			);
 
@@ -44,12 +44,6 @@ const MyTickets = ({ navigation }) => {
 			{tickets?.map((item, index) => (
 				<MyTicketsCard navigation={navigation} item={item} key={index} />
 			))}
-			{/* <MyTicketsCard navigation={navigation} />
-			<MyTicketsCard navigation={navigation} />
-			<MyTicketsCard navigation={navigation} />
-			<MyTicketsCard navigation={navigation} />
-			<MyTicketsCard navigation={navigation} />
-			<MyTicketsCard navigation={navigation} /> */}
 		</ScrollView>
 	);
 };

@@ -29,7 +29,7 @@ const EventDetails = ({ navigation, route }) => {
 				};
 
 				const res = await axios.post(
-					`http://10.0.2.2:3000/api/ticket`,
+					`https://backend-bookmetrain-production.up.railway.app/api/ticket`,
 					{
 						item: {
 							...item,

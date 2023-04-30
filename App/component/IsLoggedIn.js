@@ -21,7 +21,7 @@ const IsLoggedIn = ({ children }) => {
 				};
 
 				const res = await axios.get(
-					`http://10.0.2.2:3000/api/refresh`,
+					`https://backend-bookmetrain-production.up.railway.app/api/refresh`,
 					auth,
 				);
 				if (!res) {
@@ -32,7 +32,6 @@ const IsLoggedIn = ({ children }) => {
 				}
 				await AsyncStorage.setItem("token", res.data.accessToken);
 				dispatch(setCredentials({ ...res.data }));
-				// setToken(res.data.accessToken);
 			} catch (error) {
 				console.log("refresh token", error.error);
 				await AsyncStorage.removeItem("token");
